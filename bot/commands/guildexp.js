@@ -1,4 +1,4 @@
-var discord = require("discord.js"), uInfo = require("../events/base_userinfo.js"),dbcheck = require("../functions/addUserToBase.js"),fs = require("fs");
+var discord = require("discord.js"), uInfo = require("../events/base_userinfo.js"),dbcheck = require("../functions/addguildUserToBase.js"),dbglobalcheck = require("../functions/addUserToBase.js"),fs = require("fs");
 
 module.exports = {
     "type":"ANY",
@@ -8,10 +8,19 @@ module.exports = {
         }catch(err){
             let GlobalUsers;
             if(!GlobalUsers)GlobalUsers = {};
-            fs.writeFileSync(`./base/${message.guild.id}_users.json`, JSON.stringify(GlobalUsers));
+            fs.writeFileSync(`./base/user.json`, JSON.stringify(GlobalUsers));
+        }
+        try{
+            let Users = JSON.parse(fs.readFileSync(`./base/${message.guild.id}_users.json`, 'utf8'));
+        }catch(err){
+            let Users;
+            if(!Users)Users = {};
+            fs.writeFileSync(`./base/${message.guild.id}_users.json`, JSON.stringify(Users));
         }
         let GlobalUsers = await JSON.parse(fs.readFileSync('./base/user.json', 'utf8'));
-        dbcheck(message,GlobalUsers);
+        let Users = await JSON.parse(fs.readFileSync(`./base/${message.guild.id}_users.json`, 'utf8'));
+        dbglobalcheck(message,GlobalUsers);
+        dbcheck(message,Users);
             const Canvas = require('canvas');
             const snekfetch = require('snekfetch');
             const gm = require('gm');
@@ -36,10 +45,10 @@ module.exports = {
                     ctx.fillText('experience', canvas.width/2-100,canvas.height/2);
                     ctx.font = '12px Font';
                     ctx.fillStyle = '#000';
-                    ctx.fillText(`${GlobalUsers[message.author.id].experience}`, canvas.width/2+44,canvas.height/2+2);
+                    ctx.fillText(`${Users[message.author.id].experience}`, canvas.width/2+44,canvas.height/2+2);
                     ctx.font = '12px Font';
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillText(`${GlobalUsers[message.author.id].experience}`, canvas.width/2+42,canvas.height/2);
+                    ctx.fillText(`${Users[message.author.id].experience}`, canvas.width/2+42,canvas.height/2);
                     ctx.beginPath();
                     ctx.lineTo(canvas.width/2-130/2,canvas.height/2-130/2);
                     ctx.lineTo(canvas.width/2-130/2/2+32,canvas.height/2+130/2);
