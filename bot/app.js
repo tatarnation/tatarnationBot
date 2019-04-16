@@ -16,4 +16,4 @@ client.on("message",message=>{
     handler(message);
 });
 
-client.login("NTY2MzA2Nzg2NDA0MjA0NTU0.XLTIeA.Szx4svSlmDJF2LRZ4l5_CscS424");
+client.login("");//ой
