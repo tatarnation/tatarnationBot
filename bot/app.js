@@ -1,6 +1,7 @@
 var discord = require("discord.js"),handler = require("./handler/handler.js"), expForVoice = require("./functions/experienceForVoice.js");
 var status = require("./events/base_botstatus.js");
 var connection = require("./events/connection.js");
+var dotenv = require('dotenv').config();
 var client = new discord.Client();
 
 client.on("ready",()=>{
@@ -16,4 +17,4 @@ client.on("message",message=>{
     handler(message);
 });
 
-client.login("");//ой
+client.login(process.env.bot_token);//ойq
